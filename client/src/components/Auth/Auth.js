@@ -7,6 +7,11 @@ import {
 	Typography,
 	Container,
 } from "@material-ui/core";
+import Icon from "./Icon";
+import { GoogleLogin } from "react-google-login";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import useStyles from "./styles";
 import Input from "./Input";
@@ -15,6 +20,8 @@ const Auth = () => {
 	const classes = useStyles();
 	const [showPassword, setShowPassword] = useState(false);
 	const [isSignup, setIsSignup] = useState(true);
+	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const handleShowPassword = () =>
 		setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -26,6 +33,23 @@ const Auth = () => {
 	const switchMode = () => {
 		setIsSignup((prevIsSignup) => !prevIsSignup);
 		handleShowPassword(false);
+	};
+
+	const googleSuccess = async (res) => {
+		const result = res?.profileObj;
+		const token = res?.tokenId;
+
+		try {
+			dispatch({ type: "AUTH", data: { result, token } });
+
+			history.push("/");
+		} catch (error) {
+			console.log(error);
+		}
+	};
+	const googleFailure = (error) => {
+		console.log(error);
+		console.log("Google Sign In was unsuccessful. Try again Later");
 	};
 
 	return (
@@ -76,6 +100,7 @@ const Auth = () => {
 							/>
 						)}
 					</Grid>
+
 					<Button
 						type="submit"
 						fullWidth
@@ -85,6 +110,25 @@ const Auth = () => {
 					>
 						{isSignup ? "Sign Up" : "Sign In"}
 					</Button>
+					<GoogleLogin
+						clientId="929944078726-r8ncfr8ddkp9vh24dp91qbkejg28cjf4.apps.googleusercontent.com"
+						render={(renderProps) => (
+							<Button
+								className={classes.googleButton}
+								color="primary"
+								fullWidth
+								onClick={renderProps.onClick}
+								disabled={renderProps.disabled}
+								startIcon={<Icon />}
+								variant="contained"
+							>
+								Google Sign In
+							</Button>
+						)}
+						onSuccess={googleSuccess}
+						onFailure={googleFailure}
+						cookiePolicy="single_host_origin"
+					/>
 					<Grid container justify="flex-end">
 						<Grid item>
 							<Button onClick={switchMode}>
