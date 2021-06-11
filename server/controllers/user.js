@@ -5,7 +5,6 @@ import User from "../models/user.js";
 
 export const signin = async (req, res) => {
 	const { email, password } = req.body;
-
 	try {
 		const existingUser = await User.findOne({ email });
 		if (!existingUser) {
@@ -23,6 +22,7 @@ export const signin = async (req, res) => {
 			"test",
 			{ expiresIn: "1h" }
 		);
+
 		res.status(200).json({ result: existingUser, token });
 	} catch (error) {
 		res.status(500).json({ message: "Something went wrong" });
