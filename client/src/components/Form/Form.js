@@ -13,7 +13,7 @@ const Form = ({ currentId, setCurrentId }) => {
 		selectedFile: "",
 	});
 	const post = useSelector((state) =>
-		currentId ? state.posts.find((post) => post._id === currentId) : null
+		currentId ? state.posts.find((post) => post._id === currentId) : 0
 	);
 	const dispatch = useDispatch();
 	const classes = useStyles();
