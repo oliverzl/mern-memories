@@ -16,8 +16,9 @@ app.use(cors());
 app.use("/posts", postRoutes);
 app.use("/user", userRoutes);
 
+//the code block below is after git init and heroku remote
 app.get("/", (req, res) => {
-	res.send("Hello to Memories API");
+	res.send("Hello to Memories API VERSION 3!");
 });
 
 const PORT = process.env.PORT || 5000;
