@@ -12,8 +12,15 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
+
 app.use("/posts", postRoutes);
 app.use("/user", userRouter);
+
+//the code block below is after git init and heroku remote
+app.get("/", (req, res) => {
+	res.send("Hello to Memories API VERSION 3!");
+});
+
 
 const CONNECTION_URL =
 	"mongodb+srv://js_mastery:M6WfDnJEoj9HkV2d@practice.jto9p.mongodb.net/memories_app?retryWrites=true&w=majority";

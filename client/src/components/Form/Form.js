@@ -14,9 +14,11 @@ const Form = ({ currentId, setCurrentId }) => {
 		tags: "",
 		selectedFile: "",
 	});
+
 	const post = useSelector((state) => (currentId ? state.posts.find((message) => message._id === currentId) : null));
 	const dispatch = useDispatch();
 	const history = useHistory();
+
 	const classes = useStyles();
 	const user = JSON.parse(localStorage.getItem("profile"));
 
@@ -26,6 +28,7 @@ const Form = ({ currentId, setCurrentId }) => {
 
 	const clear = () => {
 		setCurrentId(0);
+
 		setPostData({ title: "", message: "", tags: "", selectedFile: "" });
 	};
 
@@ -51,10 +54,37 @@ const Form = ({ currentId, setCurrentId }) => {
 		);
 	}
 
+
+	if (!user?.result?.name) {
+		return (
+			<Paper className={classes.paper}>
+				<Typography variant="h6" align="center">
+					Please Sign In to create your own Memories and like others' Memories
+				</Typography>
+			</Paper>
+		);
+	}
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		if (currentId === 0) {
+			dispatch(createPost({ ...postData, name: user?.result?.name }));
+			clear();
+		} else {
+			dispatch(
+				updatePost(currentId, { ...postData, name: user?.result?.name })
+			);
+			clear();
+		}
+	};
+
 	return (
+
 		<Paper className={classes.paper} elevation={6}>
 			<form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
 				<Typography variant="h6">{currentId ? `Editing "${post.title}"` : "Creating a Memory"}</Typography>
+
 				<TextField
 					name="title"
 					variant="outlined"
