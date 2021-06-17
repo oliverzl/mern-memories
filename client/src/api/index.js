@@ -1,28 +1,6 @@
 import axios from "axios";
 
-//development url:
-// const API = axios.create({ baseURL: "http://localhost:5000" });
-
-//production url:
-const API = axios.create({ baseURL: "https://memories-v3.herokuapp.com" });
-
-API.interceptors.request.use((req) => {
-	if (localStorage.getItem("profile")) {
-		req.headers.authorization = `Bearer ${
-			JSON.parse(localStorage.getItem("profile")).token
-		}`;
-	}
-	return req;
-});
-
-API.interceptors.request.use((req) => {
-	if (localStorage.getItem("profile")) {
-		req.headers.authorization = `Bearer ${
-			JSON.parse(localStorage.getItem("profile")).token
-		}`;
-	}
-	return req;
-});
+const API = axios.create({ baseURL: "http://localhost:5000" });
 
 API.interceptors.request.use((req) => {
 	if (localStorage.getItem("profile")) {
