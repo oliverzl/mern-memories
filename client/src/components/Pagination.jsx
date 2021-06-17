@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Pagination, PaginationItem } from "@material-ui/lab";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
+//comment testing
 import { getPosts } from "../actions/posts";
 
 import useStyles from "./styles";
