@@ -6,7 +6,6 @@ import UserModal from "../models/user.js";
 const secret = 'test';
 
 export const signin = async (req, res) => {
-
   const { email, password } = req.body;
 
   try {
@@ -46,5 +45,4 @@ export const signup = async (req, res) => {
     
     console.log(error);
   }
-
 };
