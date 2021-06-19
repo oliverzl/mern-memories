@@ -7,15 +7,12 @@ import { useParams, useHistory } from "react-router-dom";
 import { getPost, getPostsBySearch } from "../../actions/posts";
 
 import useStyles from "./styles";
-
 const PostDetails = () => {
 	const { post, posts, isLoading } = useSelector((state) => state.posts);
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const classes = useStyles();
 	const { id } = useParams();
-
-	//Posts
 
 	useEffect(() => {
 		dispatch(getPost(id));
@@ -28,7 +25,6 @@ const PostDetails = () => {
 	}, [post]);
 
 	if (!post) return null;
-
 	if (isLoading) {
 		return (
 			<Paper elevation={6} className={classes.loadingPaper}>
@@ -69,7 +65,10 @@ const PostDetails = () => {
 				<div className={classes.imageSection}>
 					<img
 						className={classes.media}
-						src={post.selectedFile || "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"}
+						src={
+							post.selectedFile ||
+							"https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
+						}
 						alt={post.title}
 					/>
 				</div>
@@ -77,7 +76,7 @@ const PostDetails = () => {
 			{recommendedPosts.length && (
 				<div className={classes.section}>
 					<Typography gutterBottom variant="h5">
-						You might also like:
+						You might also like:{" "}
 					</Typography>
 					<Divider />
 					<div className={classes.recommendedPosts}>
@@ -89,11 +88,13 @@ const PostDetails = () => {
 								<Typography gutterBottom variant="subtitle2">
 									{name}
 								</Typography>
+
 								<Typography gutterBottom variant="subtitle2">
 									{message}
 								</Typography>
+
 								<Typography gutterBottom variant="subtitle1">
-									Likes: {likes.length}
+									{likes.length}
 								</Typography>
 								<img src={selectedFile} width="200px" />
 							</div>

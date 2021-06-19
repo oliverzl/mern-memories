@@ -66,14 +66,14 @@ const Home = () => {
 								}}
 							/>
 							<ChipInput
-								styles={{ margin: "10px 0" }}
+								style={{ margin: "10px 0" }}
 								value={tags}
 								onAdd={handleAdd}
 								onDelete={handleDelete}
 								label="Search Tags"
 								variant="outlined"
 							/>
-							<Button onClick={searchPost} className={classes.searchButton} color="primary">
+							<Button onClick={searchPost} className={classes.searchButton} color="primary" variant="contained">
 								Search
 							</Button>
 						</AppBar>

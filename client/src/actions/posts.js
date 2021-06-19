@@ -1,28 +1,27 @@
 import {
-	FETCH_POST,
 	FETCH_ALL,
 	FETCH_BY_SEARCH,
+	FETCH_POST,
+	CREATE,
+	DELETE,
+	UPDATE,
+	LIKE,
 	START_LOADING,
 	END_LOADING,
-	CREATE,
-	UPDATE,
-	DELETE,
-	LIKE,
 } from "../constants/actionTypes";
-import * as api from "../api/index.js";
+import * as api from "../api";
 
 export const getPost = (id) => async (dispatch) => {
 	try {
 		dispatch({ type: START_LOADING });
 		const { data } = await api.fetchPost(id);
-		console.log(data);
 		dispatch({ type: FETCH_POST, payload: data });
+		dispatch({ type: END_LOADING });
 	} catch (error) {
 		console.log(error);
 	}
 };
 
-//now, we want to pass a specific page to getPosts so it only the posts related to THAT
 export const getPosts = (page) => async (dispatch) => {
 	try {
 		dispatch({ type: START_LOADING });
@@ -52,7 +51,6 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
 export const createPost = (post, history) => async (dispatch) => {
 	try {
 		dispatch({ type: START_LOADING });
-
 		const { data } = await api.createPost(post);
 
 		history.push(`/posts/${data._id}`);
@@ -73,6 +71,14 @@ export const updatePost = (id, post) => async (dispatch) => {
 	}
 };
 
+export const deletePost = (id) => async (dispatch) => {
+	try {
+		await api.deletePost(id);
+		dispatch({ type: DELETE, payload: id });
+	} catch (error) {
+		console.log(error);
+	}
+};
 export const likePost = (id) => async (dispatch) => {
 	const user = JSON.parse(localStorage.getItem("profile"));
 
@@ -85,12 +91,12 @@ export const likePost = (id) => async (dispatch) => {
 	}
 };
 
-export const deletePost = (id) => async (dispatch) => {
-	try {
-		await await api.deletePost(id);
+// export const likePost = (id) => async (dispatch) => {
+// 	try {
+// 		const { data } = await api.likePost(id);
 
-		dispatch({ type: DELETE, payload: id });
-	} catch (error) {
-		console.log(error);
-	}
-};
+// 		dispatch({ type: UPDATE, payload: data });
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
+// };
