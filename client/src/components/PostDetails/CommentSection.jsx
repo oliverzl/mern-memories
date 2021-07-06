@@ -7,14 +7,18 @@ import { commentPost } from "../../actions/posts";
 
 const CommentSection = ({ post }) => {
 	const classes = useStyles();
-	const [comments, setComments] = useState([1, 2, 3, 4]);
+	const [comments, setComments] = useState(post?.comments);
 	const [comment, setComment] = useState("");
 	const user = JSON.parse(localStorage.getItem("profile"));
 	const dispatch = useDispatch();
+	const commentsRef = useRef();
 
-	const handleClick = () => {
+	const handleClick = async () => {
 		const finalComment = `${user.result.name}: ${comment}`;
-		dispatch(commentPost(finalComment, post._id));
+		const newComments = await dispatch(commentPost(finalComment, post._id));
+		setComments(newComments);
+		setComment("");
+		commentsRef.current.scrollIntoView({ behavior: "smooth" });
 	};
 
 	return (
@@ -26,9 +30,11 @@ const CommentSection = ({ post }) => {
 					</Typography>
 					{comments.map((comment, index) => (
 						<Typography key={index} gutterBottom variant="subtitle1">
-							Comment {index}
+							<strong> {comment.split(": ")[0]} </strong>
+							{comment.split(":")[1]}
 						</Typography>
 					))}
+					<div ref={commentsRef} />
 				</div>
 				{user?.result?.name && (
 					<div style={{ width: "70%" }}>
