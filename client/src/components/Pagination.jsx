@@ -22,7 +22,13 @@ const Paginate = ({ page }) => {
 			page={Number(page) || 1}
 			variant="outlined"
 			color="primary"
-			renderItem={(item) => <PaginationItem {...item} component={Link} to={`/posts?page=${item.page}`} />}
+			renderItem={(item) => (
+				<PaginationItem
+					{...item}
+					component={Link}
+					to={`/posts?page=${item.page}`}
+				/>
+			)}
 		/>
 	);
 };
